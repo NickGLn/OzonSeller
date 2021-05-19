@@ -4,7 +4,7 @@ import os
 import requests
 import datetime
 import re
-
+from ozon_seller_client import OzonSellerClient
 
 def get_ozon_offset_data(scopes, params, headers):
     df = pd.DataFrame()
@@ -96,9 +96,12 @@ def write_each_month_to_csv(path, data, date_column='date', prefix='data'):
         data[data[date_column] == date].to_csv(os.path.join(path, filename), sep='\t')
 
 
+
 ozon_api_key = r'30b688f6-90a0-4930-8fad-3fb542d99609'
 ozon_client_id = r'31905'
 data_path = r'\\192.168.244.9\ShfS9\marketing\Dannye_dlya_analitiki\DataComDep\Ozon'
+
+client = OzonSellerClient(api_key=ozon_api_key, client_id=ozon_client_id)
 
 # определяем текушую дату
 current_date = datetime.datetime.now()
@@ -199,7 +202,7 @@ product_id_list = get_products_data(product_list_scopes,
 
 # product_id_list = extract_details(product_id_list, 'items', ['product_id','offer_id'])
 
-product_id_list.to_csv(data_path+'\\directories\product_id_list.csv', sep='\t', encoding='utf-8')
+product_id_list.to_csv(data_path+'\\directories\product_id_list' + ozon_client_id +'.csv', sep='\t', encoding='utf-8')
 
 
 # Информация о товарах
