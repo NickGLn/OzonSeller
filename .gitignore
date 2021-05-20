@@ -1,1 +1,5 @@
 .idea/**
+config.py
+test.py
+
+__pycache__/**
