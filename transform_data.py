@@ -2,6 +2,12 @@ import numpy as np
 from date_boundaries import get_month_year_unique_list
 
 
+def add_constant_column(df, column_names=[], column_constants=[]):
+    for name, value in zip(column_names, column_constants):
+        df[name] = value
+    return df
+
+
 def extract_details(df, parse_column, params):
     if not df.empty:
         df_details = df.reset_index()
@@ -17,7 +23,12 @@ def extract_details(df, parse_column, params):
 def get_dict_element(dictionary, element) -> object:
     try:
         return dictionary.get(element)
+    # в некоторых случаях в джейсоне ячейки может не быть определенного ключа
+    # если так, то возвращаем NaN
     except KeyError:
+        return np.nan
+    # в некоторых случаях в элементах не словарь, а флоат. хз в чем дело, но пока сделал обработку
+    except AttributeError:
         return np.nan
 
 
@@ -40,7 +51,7 @@ def save_to_csv_by_month(dataframe, date_column, data_path):
     months = get_month_year_unique_list(dataframe[date_column])
     for month in months:
         dataframe[
-            dataframe['created_at'].astype('datetime64[ns]').apply(lambda x: x.strftime('%Y-%b') == month)] \
+            dataframe[date_column].astype('datetime64[ns]').apply(lambda x: x.strftime('%Y-%b') == month)] \
             .to_csv(data_path +
                     month +
                     '.csv',
@@ -49,3 +60,4 @@ def save_to_csv_by_month(dataframe, date_column, data_path):
 
 def add_clientid_column(dataframe, client_id):
     dataframe['client_id']= client_id
+    return dataframe
