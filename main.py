@@ -9,11 +9,11 @@ data_path = config.path
 # data_path = r'C:\Users\frpst\\'
 
 for client_id, api_key in config.credentials.items():
-    print('Получаем данные для ', client_id)
+    print('Получаем данные для кабинета: ', client_id)
     client = OzonSellerClient(api_key=api_key, client_id=client_id)
 
     current_date = datetime.datetime.now()
-    start_date, end_date = last_three_month_start_and_end_dates(current_date, month_delta=-3)
+    start_date, end_date = last_three_month_start_and_end_dates(current_date, month_delta=0)
 
     # Отправления со склада Ozon
     print('[Log]: Получаем данные об отправлениях со склада Ozon')
