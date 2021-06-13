@@ -56,7 +56,7 @@ class OzonSellerClient:
                       'since': start_date,
                       'to': end_date
                             },
-                  'limit': "100",
+                  'limit': offset_increment,
                   'offset': "0",
                   "translit": True,
                   "with": {
