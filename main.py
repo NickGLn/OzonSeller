@@ -13,7 +13,7 @@ for client_id, api_key in config.credentials.items():
     client = OzonSellerClient(api_key=api_key, client_id=client_id)
 
     current_date = datetime.datetime.now()
-    start_date, end_date = last_three_month_start_and_end_dates(current_date, month_delta=0)
+    start_date, end_date = last_three_month_start_and_end_dates(current_date, month_delta=-3)
 
     # Отправления со склада Ozon
     print('[Log]: Получаем данные об отправлениях со склада Ozon')
@@ -22,7 +22,7 @@ for client_id, api_key in config.credentials.items():
     if not ozon_postings.empty:
         ozon_postings = transform_postings(ozon_postings)
         ozon_postings = add_clientid_column(ozon_postings, client_id)
-        save_to_csv_by_month(ozon_postings, 'created_at', data_path + r'postings\ozon_data_fbo_' +  client_id +'_' )
+        save_to_csv_by_month(ozon_postings, 'created_at', data_path + r'\postings\ozon_data_fbo_' +  client_id +'_' )
 
     # Отправления со своего склада
     print('[Log]: Получаем данные об отправлениях с собственного склада')
@@ -31,7 +31,7 @@ for client_id, api_key in config.credentials.items():
     if not self_postings.empty:
         self_postings = transform_postings(self_postings)
         self_postings = add_clientid_column(self_postings, client_id)
-        save_to_csv_by_month(self_postings, 'created_at', data_path + r'postings\ozon_data_fbs_' + client_id +'_' )
+        save_to_csv_by_month(self_postings, 'created_at', data_path + r'\postings\ozon_data_fbs_' + client_id +'_' )
 
     # Информация о транзакциях
     print('[Log]: Получаем транзакции')
